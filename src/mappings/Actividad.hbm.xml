@@ -2,10 +2,10 @@
 <!DOCTYPE hibernate-mapping PUBLIC
     "-//Hibernate/Hibernate Mapping DTD//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+    
+<hibernate-mapping package="dao">
 
-<hibernate-mapping>
-
-    <class name="dao.Actividad" table="actividad">
+    <class name="Actividad" table="actividad">
 	    
 	    <id name="id" column="idActividad"/>
 	    <property name="nombre" column="nombre" not-null="true"/>

@@ -3,9 +3,9 @@
     "-//Hibernate/Hibernate Mapping DTD//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
+<hibernate-mapping package="dao">
 
-    <class name="dao.Propiedad" table="propiedad">
+    <class name="Propiedad" table="propiedad">
 
         <id name="id" column="idPropiedad"/>
         <property name="nombre" column="nombre" not-null="true"/>

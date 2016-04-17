@@ -3,11 +3,11 @@
     "-//Hibernate/Hibernate Mapping DTD//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
+<hibernate-mapping package="dao">
 
-    <class name="dao.Alquiler" table="alquiler">
+    <class name="Alquiler" table="alquiler">
     	
-    	<id name="id" column="idAlquiler"/>
+    	<id name="idAlquiler" column="idAlquiler"/>
 		
 		<many-to-one name="actividad" column="idActividad"/>
 		<many-to-one name="propiedad" column="idPropiedad"/>

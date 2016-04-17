@@ -3,6 +3,7 @@ package utilities;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -31,15 +32,14 @@ public class HibernateManager {
 
 	// ACTIVIDADES
 	@SuppressWarnings("unchecked")
-	public List<Actividad> getAllActividades() {
+	public List getAllActividades() {
 		System.out.println("Se recuperan todas las actividades" + "\n");
-		List<Actividad> actividades = new ArrayList<Actividad>();
 		try {
-			actividades = s.createQuery("FROM actividad").list();
+			return s.createCriteria(Actividad.class).list();
 		} catch (Exception ex) {
 			System.out.println("Error en Query" + ex.getMessage());
+			return null;
 		}
-		return actividades;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -48,7 +48,7 @@ public class HibernateManager {
 		List<Actividad> actividades = new ArrayList<Actividad>();
 		try {
 			actividades = s
-					.createQuery(
+					.createSQLQuery(
 							"FROM actividad AS A INNER JOIN propiedad_actividad AS PA ON A.idActividad=PA.idActividad where PA.idPropiedad = :idPropiedad")
 					.setInteger("idPropiedad", idPropiedad).list();
 		} catch (Exception ex) {
@@ -58,7 +58,7 @@ public class HibernateManager {
 	}
 
 	// CLIENTE
-	public void saveCliente(Cliente cliente) {
+	public void addCliente(Cliente cliente) {
 		tx = null;
 		System.out.println("Insercion de cliente" + "\n");
 		try {
@@ -72,16 +72,32 @@ public class HibernateManager {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	public List<Cliente> getAllCliente() {
-		System.out.println("Se recuperan todos los clientes" + "\n");
-		List<Cliente> clientes = new ArrayList<Cliente>();
+	public void editCliente(Cliente cliente) {
+		tx = null;
+		System.out.println("Modificación de cliente" + "\n");
 		try {
-			clientes = s.createQuery("FROM cliente").list();
+			tx = s.beginTransaction();
+			s.update(cliente);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println("Error editando cliente" + ex);
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List getAllClientes() {
+		System.out.println("Se recuperan todos los clientes" + "\n");
+		Query q = null;
+		try {
+			return s.createCriteria(Cliente.class).list();
+			// q = s.createQuery("FROM cliente");
 		} catch (Exception ex) {
 			System.out.println("Error en Query" + ex.getMessage());
+			return null;
 		}
-		return clientes;
+		// return q.list();
 	}
 
 	public Cliente getClienteByDNI(int dniCliente) {

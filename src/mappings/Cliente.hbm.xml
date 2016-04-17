@@ -3,9 +3,9 @@
     "-//Hibernate/Hibernate Mapping DTD//EN"
     "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
-<hibernate-mapping>
+<hibernate-mapping package="dao">
 
-    <class name="dao.Cliente" table="cliente">
+    <class name="Cliente" table="cliente">
 
         <id name="dni" column="dni"/>
 
@@ -18,7 +18,7 @@
 				
 		<set name="alquileres" table="alquiler" lazy="true">
 			<key column="dniCliente"/>
-			<many-to-many column="idAlquiler" class="dao.Alquiler"/>
+			<one-to-many class="Alquiler"/>
 		</set>
 		
    </class>
