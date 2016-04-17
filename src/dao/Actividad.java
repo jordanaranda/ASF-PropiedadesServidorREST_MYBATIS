@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Actividad {
+
 	private int		id;
 	private String	nombre;
 

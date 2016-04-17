@@ -5,10 +5,10 @@
 
 <hibernate-mapping>
 
-    <class name="dao.Propiedad" table="PROPIEDAD">
+    <class name="dao.Propiedad" table="propiedad">
 
         <id name="id" column="idPropiedad"/>
-        <property name="nombre" column="NOMBRE" not-null="true"/>
+        <property name="nombre" column="nombre" not-null="true"/>
 		
    </class>
    

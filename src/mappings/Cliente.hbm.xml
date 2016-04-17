@@ -5,18 +5,18 @@
 
 <hibernate-mapping>
 
-    <class name="dao.Cliente" table="CLIENTE">
+    <class name="dao.Cliente" table="cliente">
 
-        <id name="dni" column="DNI"/>
+        <id name="dni" column="dni"/>
 
-        <property name="nombre" column="NOMBRE" not-null="true"/>
-		<property name="apellido" column="APELLIDO"/>
-		<property name="email" column="EMAIL"/>
-		<property name="direccion" column="DIRECCION"/>
-		<property name="codigoPostal" column="CP"/> 
-		<property name="telefono" column="TELEFONO"/> 
+        <property name="nombre" column="nombre" not-null="true"/>
+		<property name="apellido" column="apellido" not-null="true"/>
+		<property name="email" column="email"/>
+		<property name="direccion" column="direccion"/>
+		<property name="codigoPostal" column="cp"/> 
+		<property name="telefono" column="telefono"/> 
 				
-		<set name="alquileres" table="ALQUILER" lazy="true">
+		<set name="alquileres" table="alquiler" lazy="true">
 			<key column="dniCliente"/>
 			<many-to-many column="idAlquiler" class="dao.Alquiler"/>
 		</set>

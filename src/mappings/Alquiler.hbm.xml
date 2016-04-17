@@ -5,9 +5,17 @@
 
 <hibernate-mapping>
 
-    <class name="dao.Actividad" table="ACTIVIDAD">
-    <id name="id" column="idActividad"/>
+    <class name="dao.Alquiler" table="alquiler">
+    	
+    	<id name="id" column="idAlquiler"/>
 		
+		<many-to-one name="actividad" column="idActividad"/>
+		<many-to-one name="propiedad" column="idPropiedad"/>
+		<many-to-one name="cliente" column="dniCliente"/>
+		<property name="fechaInicio" column="fechaInicio" type="date"/>
+		<property name="fechaFin" column="fechaFin" type="date"/>
+		<property name="precio" column="precio" type="double"/>
+			
    </class>
    
 </hibernate-mapping>

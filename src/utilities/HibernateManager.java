@@ -34,7 +34,7 @@ public class HibernateManager {
 		System.out.println("Se recuperan todas las actividades" + "\n");
 		List<Actividad> actividades = new ArrayList<Actividad>();
 		try {
-			actividades = s.createQuery("FROM Actividad").list();
+			actividades = s.createQuery("FROM actividad").list();
 		} catch (Exception ex) {
 			System.out.println("Error en Query" + ex.getMessage());
 		}
@@ -48,7 +48,7 @@ public class HibernateManager {
 		try {
 			actividades = s
 					.createQuery(
-							"FROM Actividad AS A INNER JOIN propiedad_actividad AS PA ON A.idActividad=PA.idActividad where PA.idPropiedad = :idPropiedad")
+							"FROM actividad AS A INNER JOIN propiedad_actividad AS PA ON A.idActividad=PA.idActividad where PA.idPropiedad = :idPropiedad")
 					.setString("idPropiedad", idPropiedad).list();
 		} catch (Exception ex) {
 			System.out.println("Error en Query" + ex.getMessage());
@@ -69,6 +69,18 @@ public class HibernateManager {
 				tx.rollback();
 			System.out.println("Error insertando cliente" + ex);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<Cliente> getAllCliente() {
+		System.out.println("Se recuperan todos los clientes" + "\n");
+		List<Cliente> clientes = new ArrayList<Cliente>();
+		try {
+			clientes = s.createQuery("FROM cliente").list();
+		} catch (Exception ex) {
+			System.out.println("Error en Query" + ex.getMessage());
+		}
+		return clientes;
 	}
 
 	public Cliente getClienteByDNI(String dniCliente) {
