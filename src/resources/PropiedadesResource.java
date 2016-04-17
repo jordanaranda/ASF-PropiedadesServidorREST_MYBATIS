@@ -37,7 +37,7 @@ public class PropiedadesResource {
 	@GET
 	@Path("{idPropiedad}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Propiedad getActividadesPropiedad(@PathParam("idPropiedad") String idPropiedad) {
+	public Propiedad getPropiedad(@PathParam("idPropiedad") String idPropiedad) {
 		Propiedad propiedad = null;
 		try {
 			Database.getInstance().createConnection();

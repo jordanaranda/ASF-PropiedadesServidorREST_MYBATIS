@@ -10,6 +10,7 @@ import org.hibernate.cfg.Configuration;
 
 import dao.Actividad;
 import dao.Cliente;
+import dao.Propiedad;
 
 public class HibernateManager {
 
@@ -42,14 +43,14 @@ public class HibernateManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Actividad> getActividadesPropiedad(String idPropiedad) {
+	public List<Actividad> getActividadesPropiedad(int idPropiedad) {
 		System.out.println("Se recuperan todas las actividades de la propiedad" + "\n");
 		List<Actividad> actividades = new ArrayList<Actividad>();
 		try {
 			actividades = s
 					.createQuery(
 							"FROM actividad AS A INNER JOIN propiedad_actividad AS PA ON A.idActividad=PA.idActividad where PA.idPropiedad = :idPropiedad")
-					.setString("idPropiedad", idPropiedad).list();
+					.setInteger("idPropiedad", idPropiedad).list();
 		} catch (Exception ex) {
 			System.out.println("Error en Query" + ex.getMessage());
 		}
@@ -57,7 +58,7 @@ public class HibernateManager {
 	}
 
 	// CLIENTE
-	public void addCliente(Cliente cliente) {
+	public void saveCliente(Cliente cliente) {
 		tx = null;
 		System.out.println("Insercion de cliente" + "\n");
 		try {
@@ -83,7 +84,7 @@ public class HibernateManager {
 		return clientes;
 	}
 
-	public Cliente getClienteByDNI(String dniCliente) {
+	public Cliente getClienteByDNI(int dniCliente) {
 		System.out.println("Recuperacion de Cliente por DNI" + "\n");
 		Cliente cliente = null;
 		try {
@@ -94,7 +95,43 @@ public class HibernateManager {
 		return cliente;
 	}
 
+	public void deleteCliente(Cliente cliente) {
+		tx = null;
+		System.out.println("Borrado de cliente" + "\n");
+		try {
+			tx = s.beginTransaction();
+			s.delete(cliente);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println("Error eliminando cliente" + ex);
+		}
+	}
+
 	// PROPIEDAD
+	@SuppressWarnings("unchecked")
+	public List<Propiedad> getAllPropiedades() {
+		System.out.println("Se recuperan todas las propiedades" + "\n");
+		List<Propiedad> propiedades = new ArrayList<Propiedad>();
+		try {
+			propiedades = s.createQuery("FROM propiedad").list();
+		} catch (Exception ex) {
+			System.out.println("Error en Query" + ex.getMessage());
+		}
+		return propiedades;
+	}
+
+	public Propiedad getPropiedadByID(int idPropiedad) {
+		System.out.println("Recuperacion de propiedad por ID" + "\n");
+		Propiedad propiedad = null;
+		try {
+			propiedad = (Propiedad) s.load(Propiedad.class, idPropiedad);
+		} catch (Exception ex) {
+			System.out.println("Error recuperando propiedad" + ex);
+		}
+		return propiedad;
+	}
 
 	// ALQUILER
 
