@@ -16,8 +16,10 @@
 		<property name="codigoPostal" column="cp"/> 
 		<property name="telefono" column="telefono"/> 
 				
-		<set name="alquileres" table="alquiler" lazy="true">
-			<key column="dniCliente"/>
+		<set name="alquileres" cascade="delete" table="alquiler">
+			<key>
+                <column name="dniCliente"/>
+            </key>
 			<one-to-many class="Alquiler"/>
 		</set>
 		

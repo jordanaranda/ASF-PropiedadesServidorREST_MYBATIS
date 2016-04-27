@@ -3,13 +3,13 @@ package utilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import dao.Actividad;
+import dao.Alquiler;
 import dao.Cliente;
 import dao.Propiedad;
 
@@ -32,7 +32,7 @@ public class HibernateManager {
 
 	// ACTIVIDADES
 	@SuppressWarnings("unchecked")
-	public List getAllActividades() {
+	public List<Actividad> getAllActividades() {
 		System.out.println("Se recuperan todas las actividades" + "\n");
 		try {
 			return s.createCriteria(Actividad.class).list();
@@ -40,21 +40,6 @@ public class HibernateManager {
 			System.out.println("Error en Query" + ex.getMessage());
 			return null;
 		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public List<Actividad> getActividadesPropiedad(int idPropiedad) {
-		System.out.println("Se recuperan todas las actividades de la propiedad" + "\n");
-		List<Actividad> actividades = new ArrayList<Actividad>();
-		try {
-			actividades = s
-					.createSQLQuery(
-							"FROM actividad AS A INNER JOIN propiedad_actividad AS PA ON A.idActividad=PA.idActividad where PA.idPropiedad = :idPropiedad")
-					.setInteger("idPropiedad", idPropiedad).list();
-		} catch (Exception ex) {
-			System.out.println("Error en Query" + ex.getMessage());
-		}
-		return actividades;
 	}
 
 	// CLIENTE
@@ -74,7 +59,7 @@ public class HibernateManager {
 
 	public void editCliente(Cliente cliente) {
 		tx = null;
-		System.out.println("Modificación de cliente" + "\n");
+		System.out.println("Modificacion de cliente" + "\n");
 		try {
 			tx = s.beginTransaction();
 			s.update(cliente);
@@ -87,17 +72,15 @@ public class HibernateManager {
 	}
 
 	@SuppressWarnings("unchecked")
-	public List getAllClientes() {
+	public List<Cliente> getAllClientes() {
 		System.out.println("Se recuperan todos los clientes" + "\n");
-		Query q = null;
+		List<Cliente> clientes = new ArrayList<Cliente>();
 		try {
-			return s.createCriteria(Cliente.class).list();
-			// q = s.createQuery("FROM cliente");
+			clientes = s.createCriteria(Cliente.class).list();
 		} catch (Exception ex) {
 			System.out.println("Error en Query" + ex.getMessage());
-			return null;
 		}
-		// return q.list();
+		return clientes;
 	}
 
 	public Cliente getClienteByDNI(int dniCliente) {
@@ -106,7 +89,7 @@ public class HibernateManager {
 		try {
 			cliente = (Cliente) s.load(Cliente.class, dniCliente);
 		} catch (Exception ex) {
-			System.out.println("Error recuperando cliente" + ex);
+			System.out.println("Error recuperando cliente " + ex);
 		}
 		return cliente;
 	}
@@ -121,7 +104,7 @@ public class HibernateManager {
 		} catch (Exception ex) {
 			if (tx != null)
 				tx.rollback();
-			System.out.println("Error eliminando cliente" + ex);
+			System.out.println("Error eliminando cliente " + ex);
 		}
 	}
 
@@ -133,7 +116,7 @@ public class HibernateManager {
 		try {
 			propiedades = s.createQuery("FROM propiedad").list();
 		} catch (Exception ex) {
-			System.out.println("Error en Query" + ex.getMessage());
+			System.out.println("Error en Query " + ex.getMessage());
 		}
 		return propiedades;
 	}
@@ -144,12 +127,54 @@ public class HibernateManager {
 		try {
 			propiedad = (Propiedad) s.load(Propiedad.class, idPropiedad);
 		} catch (Exception ex) {
-			System.out.println("Error recuperando propiedad" + ex);
+			System.out.println("Error recuperando propiedad " + ex);
 		}
 		return propiedad;
 	}
 
 	// ALQUILER
+
+	public void addAlquiler(Alquiler alquiler) {
+		tx = null;
+		System.out.println("Insercion de alquiler " + "\n");
+		try {
+			tx = s.beginTransaction();
+			s.save(alquiler);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println("Error insertando alquiler " + ex);
+		}
+	}
+
+	public void editAlquiler(Alquiler alquiler) {
+		tx = null;
+		System.out.println("Modificacion de alquiler" + "\n");
+		try {
+			tx = s.beginTransaction();
+			s.update(alquiler);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println("Error editando alquiler" + ex);
+		}
+	}
+
+	public void deleteAlquiler(Alquiler alquiler) {
+		tx = null;
+		System.out.println("Borrado de alquiler " + "\n");
+		try {
+			tx = s.beginTransaction();
+			s.delete(alquiler);
+			tx.commit();
+		} catch (Exception ex) {
+			if (tx != null)
+				tx.rollback();
+			System.out.println("Error eliminando alquiler" + ex);
+		}
+	}
 
 	public static HibernateManager getInstance() {
 		if (instance == null) {

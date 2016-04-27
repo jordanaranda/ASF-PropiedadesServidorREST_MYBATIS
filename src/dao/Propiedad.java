@@ -1,12 +1,15 @@
 package dao;
 
+import java.util.Set;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Propiedad {
 
-	private int		id;
-	private String	nombre;
+	private int				id;
+	private String			nombre;
+	private Set<Actividad>	actividades;
 
 	public Propiedad() {
 
@@ -35,6 +38,14 @@ public class Propiedad {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Set<Actividad> getActividades() {
+		return actividades;
+	}
+
+	public void setActividades(Set<Actividad> actividades) {
+		this.actividades = actividades;
 	}
 
 	@Override

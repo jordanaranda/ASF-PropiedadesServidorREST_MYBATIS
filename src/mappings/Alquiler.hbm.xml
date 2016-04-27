@@ -7,13 +7,24 @@
 
     <class name="Alquiler" table="alquiler">
     	
-    	<id name="idAlquiler" column="idAlquiler"/>
+    	<id name="idAlquiler" column="idAlquiler">
+    		<generator class="native"/>
+    	</id>
 		
-		<many-to-one name="actividad" column="idActividad"/>
-		<many-to-one name="propiedad" column="idPropiedad"/>
-		<many-to-one name="cliente" column="dniCliente"/>
-		<property name="fechaInicio" column="fechaInicio" type="date"/>
-		<property name="fechaFin" column="fechaFin" type="date"/>
+		<many-to-one name="actividad" class="Actividad">
+            <column name="idActividad"/>
+        </many-to-one>
+        
+        <many-to-one name="propiedad" class="Propiedad">
+            <column name="idPropiedad"/>
+        </many-to-one>
+        
+        <many-to-one name="cliente" class="Cliente">
+            <column name="dniCliente"/>
+        </many-to-one>
+		
+		<property name="fechaInicio" column="fecha_inicio" type="date"/>
+		<property name="fechaFin" column="fecha_fin" type="date"/>
 		<property name="precio" column="precio" type="double"/>
 			
    </class>
