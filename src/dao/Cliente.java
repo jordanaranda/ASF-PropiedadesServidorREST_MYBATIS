@@ -1,21 +1,50 @@
 package dao;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @XmlRootElement
+@Entity
+@Table(name = "cliente")
 public class Cliente {
 
+	@Id
+	@Column(name = "dni")
 	private int				dni;
+
+	@Column(name = "nombre")
 	private String			nombre;
+
+	@Column(name = "apellido")
 	private String			apellido;
+
+	@Column(name = "email")
 	private String			email;
+
+	@Column(name = "direccion")
 	private String			direccion;
+
+	@Column(name = "cp")
 	private int				codigoPostal;
+
+	@Column(name = "telefono")
 	private int				telefono;
-	private Set<Alquiler>	alquileres;
+
+	@OneToMany(targetEntity = Alquiler.class, cascade = CascadeType.ALL)
+	@Column(name = "dniCliente")
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Alquiler>	alquileres;
 
 	public Cliente() {
 
@@ -28,7 +57,7 @@ public class Cliente {
 		this.direccion = direccion;
 		this.codigoPostal = codigoPostal;
 		this.telefono = telefono;
-		this.alquileres = new HashSet<Alquiler>();
+		this.alquileres = new ArrayList<Alquiler>();
 	}
 
 	public Cliente(int dni, String nombre, String apellido, String email, String direccion, int codigoPostal, int telefono) {
@@ -39,7 +68,7 @@ public class Cliente {
 		this.direccion = direccion;
 		this.codigoPostal = codigoPostal;
 		this.telefono = telefono;
-		this.alquileres = new HashSet<Alquiler>();
+		this.alquileres = new ArrayList<Alquiler>();
 	}
 
 	public int getDni() {
@@ -98,11 +127,11 @@ public class Cliente {
 		this.telefono = telefono;
 	}
 
-	public Set<Alquiler> getAlquileres() {
+	public List<Alquiler> getAlquileres() {
 		return alquileres;
 	}
 
-	public void setAlquileres(Set<Alquiler> alquileres) {
+	public void setAlquileres(List<Alquiler> alquileres) {
 		this.alquileres = alquileres;
 	}
 

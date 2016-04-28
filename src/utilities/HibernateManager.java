@@ -6,7 +6,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.AnnotationConfiguration;
 
 import dao.Actividad;
 import dao.Alquiler;
@@ -22,7 +22,7 @@ public class HibernateManager {
 	private Session					s;
 
 	private HibernateManager() {
-		factory = new Configuration().configure().buildSessionFactory();
+		factory = new AnnotationConfiguration().configure().buildSessionFactory();
 		s = factory.openSession();
 	}
 
@@ -133,6 +133,17 @@ public class HibernateManager {
 	}
 
 	// ALQUILER
+
+	public Alquiler getAlquilerByID(int idAlquiler) {
+		System.out.println("Recuperacion de Alquiler por ID" + "\n");
+		Alquiler alquiler = null;
+		try {
+			alquiler = (Alquiler) s.load(Cliente.class, idAlquiler);
+		} catch (Exception ex) {
+			System.out.println("Error recuperando alquiler " + ex);
+		}
+		return alquiler;
+	}
 
 	public void addAlquiler(Alquiler alquiler) {
 		tx = null;

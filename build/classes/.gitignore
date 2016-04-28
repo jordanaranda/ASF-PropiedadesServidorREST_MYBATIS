@@ -1,6 +1,5 @@
 /dao/
-/hibernate.cfg.xml
-/mappings/
+/hibernate.cfg.out.xml
 /resources/
 /test/
 /utilities/

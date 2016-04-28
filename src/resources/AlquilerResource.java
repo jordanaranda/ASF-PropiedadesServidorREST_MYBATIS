@@ -12,6 +12,7 @@ import com.sun.jersey.api.NotFoundException;
 
 import dao.Alquiler;
 import utilities.Database;
+import utilities.HibernateManager;
 
 public class AlquilerResource {
 
@@ -19,10 +20,10 @@ public class AlquilerResource {
 
 	public AlquilerResource(String id) {
 		this.id = Integer.parseInt(id);
-		Database.getInstance().createConnection();
-		if (Database.getInstance().count("alquiler", "idAlquiler = " + id) == 0)
+		Alquiler alquiler = HibernateManager.getInstance().getAlquilerByID(this.id);
+		if (alquiler != null) {
 			throw new NotFoundException("Get: Alquiler with " + id + " not found");
-		Database.getInstance().disconnect();
+		}
 	}
 
 	@PUT
@@ -30,25 +31,21 @@ public class AlquilerResource {
 	public Response putAlquiler(@Context UriInfo uriInfo, Alquiler alquiler) {
 		Response res;
 		Database.getInstance().createConnection();
+
 		if (id != alquiler.getIdAlquiler()) {
 			res = Response.status(409).entity("Put: Alquiler with " + alquiler.getIdAlquiler() + " does not match with current client").build();
 		} else {
 			res = Response.noContent().build();
-			Database.getInstance()
-					.update("update alquiler set idPropiedad = " + alquiler.getPropiedad().getId() + ", dniCliente = "
-							+ alquiler.getCliente().getDni() + ", idActividad = " + alquiler.getActividad().getId() + ", fecha_inicio = "
-							+ alquiler.getFechaInicio().getTime() + ", fecha_fin = " + alquiler.getFechaFin().getTime() + ", precio = "
-							+ alquiler.getPrecio() + " where idAlquiler = " + id);
+			HibernateManager.getInstance().editAlquiler(alquiler);
 		}
-		Database.getInstance().disconnect();
 		return res;
 	}
 
 	@DELETE
 	public void deleteAlquiler() {
-		Database.getInstance().createConnection();
-		Database.getInstance().update("delete from alquiler where idAlquiler = " + id);
-		Database.getInstance().disconnect();
+		Alquiler alquiler = HibernateManager.getInstance().getAlquilerByID(id);
+		if (alquiler != null) {
+			HibernateManager.getInstance().deleteAlquiler(alquiler);
+		}
 	}
-
 }

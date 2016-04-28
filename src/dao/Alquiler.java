@@ -2,17 +2,44 @@ package dao;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
+@Entity
+@Table(name = "alquiler")
 public class Alquiler {
 
+	@Id
+	@Column(name = "idAlquiler")
+	@GeneratedValue
 	private int			idAlquiler;
+
+	@ManyToOne
+	@JoinColumn(name = "dniCliente")
 	private Cliente		cliente;
+
+	@ManyToOne
+	@JoinColumn(name = "idActividad")
 	private Actividad	actividad;
+
+	@ManyToOne
+	@JoinColumn(name = "idPropiedad")
 	private Propiedad	propiedad;
+
+	@Column(name = "fecha_inicio")
 	private Date		fechaInicio;
+
+	@Column(name = "fecha_fin")
 	private Date		fechaFin;
+
+	@Column(name = "precio")
 	private double		precio;
 
 	public Alquiler() {

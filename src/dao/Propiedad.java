@@ -1,15 +1,37 @@
 package dao;
 
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 @XmlRootElement
+@Entity
+@Table(name = "propiedad")
 public class Propiedad {
 
+	@Id
+	@Column(name = "idPropiedad")
 	private int				id;
+
+	@Column(name = "nombre")
 	private String			nombre;
-	private Set<Actividad>	actividades;
+
+	@ManyToMany(cascade = { CascadeType.ALL })
+	@JoinTable(name = "propiedad_actividad", joinColumns = { @JoinColumn(name = "idPropiedad") }, inverseJoinColumns = {
+			@JoinColumn(name = "idActividad") })
+	@LazyCollection(LazyCollectionOption.FALSE)
+	private List<Actividad>	actividades;
 
 	public Propiedad() {
 
@@ -40,11 +62,11 @@ public class Propiedad {
 		this.nombre = nombre;
 	}
 
-	public Set<Actividad> getActividades() {
+	public List<Actividad> getActividades() {
 		return actividades;
 	}
 
-	public void setActividades(Set<Actividad> actividades) {
+	public void setActividades(List<Actividad> actividades) {
 		this.actividades = actividades;
 	}
 

@@ -40,14 +40,20 @@ public class TestHibernate {
 		}
 
 		// EDITAMOS EL CLIENTE LLAMADO ENDIKA
-		System.out.println("\nEDITAMOS EL CLIENTE 'ENDIKA'");
+		System.out.println("\nEDITAMOS EL CLIENTE 'ENDIKA' y 'JORDAN'");
 		cl1.setNombre("Endika Editado");
+		cl2.setNombre("Jordan Editado");
 		HibernateManager.getInstance().editCliente(cl1);
+		HibernateManager.getInstance().editCliente(cl2);
 
 		// OBTENEMOS EL CLIENTE EDITADO Y LO MOSTRAMOS
 		System.out.println("\nMOSTRAMOS LOS DATOS DEL CLIENTE 'ENDIKA' TRAS LA EDICION");
 		cl1 = HibernateManager.getInstance().getClienteByDNI(cl1.getDni());
 		System.out.println(cl1.toString());
+
+		System.out.println("\nMOSTRAMOS LOS DATOS DEL CLIENTE 'JORDAN' TRAS LA EDICION");
+		cl2 = HibernateManager.getInstance().getClienteByDNI(cl2.getDni());
+		System.out.println(cl2.toString());
 
 		// ACTIVIDADES
 
@@ -61,12 +67,12 @@ public class TestHibernate {
 		// PROPIEDADES
 
 		// OBTENEMOS LA PROPIEDAD CON ID 6 Y SUS ACTIVIDADES
-		System.out.println("\nVISUALIZAMOS LA PROPIEDAD CON ID 6");
-		Propiedad p = HibernateManager.getInstance().getPropiedadByID(6);
+		System.out.println("\nVISUALIZAMOS LA PROPIEDAD CON ID 1");
+		Propiedad p = HibernateManager.getInstance().getPropiedadByID(1);
 		System.out.println(p.toString());
 
 		// OBTENEMOS TODAS LAS ACTIVIDADES DE LA PROPIEDAD CON ID 1
-		System.out.println("\nVISUALIZAMOS TODAS LAS ACTIVIDADES DE LA PROPIEDAD CON ID 6");
+		System.out.println("\nVISUALIZAMOS TODAS LAS ACTIVIDADES DE LA PROPIEDAD CON ID 1");
 		List<Actividad> actividadesPropiedad = new ArrayList<Actividad>();
 		actividadesPropiedad.addAll(p.getActividades());
 		for (Actividad a : actividadesPropiedad) {
@@ -78,16 +84,19 @@ public class TestHibernate {
 		Alquiler alq1 = new Alquiler(cl1, actividadesPropiedad.get(0), p, new Date(), new Date(), 100);
 		Alquiler alq2 = new Alquiler(cl2, actividadesPropiedad.get(1), p, new Date(), new Date(), 200);
 
-		HibernateManager.getInstance().addAlquiler(alq1);
-		HibernateManager.getInstance().addAlquiler(alq2);
+		cl1.getAlquileres().add(alq1);
+		HibernateManager.getInstance().editCliente(cl1);
+
+		cl2.getAlquileres().add(alq2);
+		HibernateManager.getInstance().editCliente(cl2);
+
+		// HibernateManager.getInstance().addAlquiler(alq1);
+		// HibernateManager.getInstance().addAlquiler(alq2);
 
 		cl1 = HibernateManager.getInstance().getClienteByDNI(cl1.getDni());
+		cl2 = HibernateManager.getInstance().getClienteByDNI(cl2.getDni());
 		System.out.println("Alquileres de cl1: " + cl1.getAlquileres().size());
 		System.out.println("Alquileres de cl2: " + cl2.getAlquileres().size());
-
-		for (Alquiler a : cl1.getAlquileres()) {
-			System.out.println(a.toString());
-		}
 
 		// CERRAMOS LA SESION
 		HibernateManager.getInstance().closeSession();
