@@ -9,9 +9,10 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import dao.Actividad;
-import dao.Propiedad;
-import utilities.HibernateManager;
+import dao.ActividadDAO;
+import dao.PropiedadDAO;
+import vo.Actividad;
+import vo.Propiedad;
 
 @Path("/actividades")
 public class ActividadesResource {
@@ -20,7 +21,7 @@ public class ActividadesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Actividad> getActividades() {
 		List<Actividad> actividades = new ArrayList<Actividad>();
-		actividades = HibernateManager.getInstance().getAllActividades();
+		actividades = new ActividadDAO().getAllActividades();
 		return actividades;
 	}
 
@@ -29,7 +30,7 @@ public class ActividadesResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Actividad> getActividadesPropiedad(@PathParam("idPropiedad") String idPropiedad) {
 		List<Actividad> actividades = new ArrayList<Actividad>();
-		Propiedad propiedad = HibernateManager.getInstance().getPropiedadByID(Integer.parseInt(idPropiedad));
+		Propiedad propiedad = new PropiedadDAO().getPropiedadById(Integer.parseInt(idPropiedad));
 		if (propiedad != null) {
 			actividades.addAll(propiedad.getActividades());
 		}

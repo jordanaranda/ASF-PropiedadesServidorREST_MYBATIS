@@ -15,9 +15,9 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import dao.Alquiler;
-import dao.Cliente;
 import utilities.HibernateManager;
+import vo.Alquiler;
+import vo.Cliente;
 
 @Path("/alquileres")
 public class AlquileresResource {

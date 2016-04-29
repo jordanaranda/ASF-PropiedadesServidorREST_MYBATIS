@@ -10,9 +10,9 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.NotFoundException;
 
-import dao.Alquiler;
 import utilities.Database;
 import utilities.HibernateManager;
+import vo.Alquiler;
 
 public class AlquilerResource {
 

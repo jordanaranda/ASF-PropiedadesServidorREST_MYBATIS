@@ -12,8 +12,8 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.NotFoundException;
 
-import dao.Cliente;
 import utilities.HibernateManager;
+import vo.Cliente;
 
 public class ClienteResource {
 

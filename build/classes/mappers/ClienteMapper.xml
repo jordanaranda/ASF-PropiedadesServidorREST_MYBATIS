@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mappers.ClienteMapper">
+
+	<insert id="addCliente" parameterType="Cliente">
+		INSERT INTO cliente VALUES (#{dni}, #{nombre}, #{apellido}, #{email}, #{direccion}, #{cp}, #{telefono})
+	</insert>
+
+	<update id="editCliente" parameterType="Cliente">
+		UPDATE cliente SET nombre=#{nombre}, apellido=#{apellido}, email=#{email}, direccion=#{direccion}, cp=#{cp}, telefono=#{telefono} WHERE dni=#{dni}
+	</update>
+	
+	<select	id="getAllClientes" resultType="Cliente">
+		SELECT * FROM cliente
+	</select>
+	
+	<select	id="getClienteByDNI" parameterType="int" resultType="Cliente">
+		SELECT * FROM cliente WHERE dni=#{dni}
+	</select>
+	
+	<delete id="deleteCliente" parameterType="Cliente">
+		DELETE FROM cliente WHERE dni=#{dni}
+	</delete>
+	
+</mapper>
