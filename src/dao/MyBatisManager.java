@@ -87,7 +87,6 @@ public class MyBatisManager {
 			for (Propiedad p : propiedades) {
 				CustomPropiedad cp = p.toCustomPropiedad();
 				cp.setActividades(getActividadesByIdPropiedad(p.getIdPropiedad()));
-				System.out.println(cp.getIdPropiedad());
 				customPropiedades.add(cp);
 			}
 		} catch (Exception e) {
