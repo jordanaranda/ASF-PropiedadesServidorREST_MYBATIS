@@ -3,24 +3,25 @@ package vo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CustomPropiedad {
 
-	private int idPropiedad;
-	private String nombre;
-	private List<CustomActividad> actividades;
-	
+	private int						idPropiedad;
+	private String					nombre;
+	private List<CustomActividad>	actividades;
+
 	public CustomPropiedad() {
 		actividades = new ArrayList<CustomActividad>();
 	}
 
 	public CustomPropiedad(String nombre, List<CustomActividad> actividades) {
-		super();
 		this.nombre = nombre;
 		this.actividades = actividades;
 	}
 
 	public CustomPropiedad(int idPropiedad, String nombre, List<CustomActividad> actividades) {
-		super();
 		this.idPropiedad = idPropiedad;
 		this.nombre = nombre;
 		this.actividades = actividades;
@@ -48,5 +49,10 @@ public class CustomPropiedad {
 
 	public void setActividades(List<CustomActividad> actividades) {
 		this.actividades = actividades;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomPropiedad [idPropiedad=" + idPropiedad + ", nombre=" + nombre + "]";
 	}
 }

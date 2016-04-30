@@ -8,22 +8,22 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import utilities.HibernateManager;
-import vo.Propiedad;
+import dao.MyBatisManager;
+import vo.CustomPropiedad;
 
 @Path("/propiedades")
 public class PropiedadesResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Propiedad> getPropiedades() {
-		return HibernateManager.getInstance().getAllPropiedades();
+	public List<CustomPropiedad> getPropiedades() {
+		return MyBatisManager.getInstance().getAllPropiedades();
 	}
 
 	@GET
 	@Path("{idPropiedad}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Propiedad getPropiedad(@PathParam("idPropiedad") String idPropiedad) {
-		return HibernateManager.getInstance().getPropiedadByID(Integer.parseInt(idPropiedad));
+	public CustomPropiedad getPropiedad(@PathParam("idPropiedad") String idPropiedad) {
+		return MyBatisManager.getInstance().getPropiedadById(Integer.parseInt(idPropiedad));
 	}
 }

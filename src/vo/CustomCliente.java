@@ -1,25 +1,39 @@
 package vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CustomCliente {
-	
-	private int dni;
-	private String nombre;
-	private String apellido;
-	private String email;
-	private String direccion;
-	private int codigoPostal;
-	private int telefono;
-	private List<CustomAlquiler> alquileres;
-	
+
+	private int						dni;
+	private String					nombre;
+	private String					apellido;
+	private String					email;
+	private String					direccion;
+	private int						codigoPostal;
+	private int						telefono;
+	private List<CustomAlquiler>	alquileres;
+
 	public CustomCliente() {
-		
+		alquileres = new ArrayList<CustomAlquiler>();
+	}
+
+	public CustomCliente(int dni, String nombre, String apellido, String email, String direccion, int codigoPostal, int telefono) {
+		this.dni = dni;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.direccion = direccion;
+		this.codigoPostal = codigoPostal;
+		this.telefono = telefono;
+		this.alquileres = new ArrayList<CustomAlquiler>();
 	}
 
 	public CustomCliente(String nombre, String apellido, String email, String direccion, int codigoPostal, int telefono,
 			List<CustomAlquiler> alquileres) {
-		super();
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
@@ -29,9 +43,8 @@ public class CustomCliente {
 		this.alquileres = alquileres;
 	}
 
-	public CustomCliente(int dni, String nombre, String apellido, String email, String direccion, int codigoPostal,
-			int telefono, List<CustomAlquiler> alquileres) {
-		super();
+	public CustomCliente(int dni, String nombre, String apellido, String email, String direccion, int codigoPostal, int telefono,
+			List<CustomAlquiler> alquileres) {
 		this.dni = dni;
 		this.nombre = nombre;
 		this.apellido = apellido;
@@ -104,5 +117,23 @@ public class CustomCliente {
 
 	public void setAlquileres(List<CustomAlquiler> alquileres) {
 		this.alquileres = alquileres;
+	}
+
+	public Cliente toCliente() {
+		Cliente cliente = new Cliente();
+		cliente.setDni(dni);
+		cliente.setNombre(nombre);
+		cliente.setApellido(apellido);
+		cliente.setEmail(email);
+		cliente.setDireccion(direccion);
+		cliente.setcp(codigoPostal);
+		cliente.setTelefono(telefono);
+		return cliente;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomCliente [dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", direccion=" + direccion
+				+ ", codigoPostal=" + codigoPostal + ", telefono=" + telefono + "]";
 	}
 }

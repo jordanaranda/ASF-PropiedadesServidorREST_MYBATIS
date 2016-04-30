@@ -9,6 +9,10 @@
 	<select	id="getAllActividades" resultType="Actividad">
 		SELECT * FROM actividad
 	</select>
+	
+	<select	id="getActividadById" parameterType="int" resultType="Actividad">
+		SELECT * FROM actividad WHERE idActividad=#{idActividad}
+	</select>
 
 	<select	id="getAllActividadesByIdPropiedad" parameterType="int" resultType="Actividad">
 		SELECT * FROM actividad a, propiedad_actividad pa WHERE a.idActividad=pa.idActividad AND pa.idPropiedad=#{idPropiedad}

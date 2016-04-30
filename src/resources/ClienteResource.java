@@ -12,8 +12,8 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.NotFoundException;
 
-import utilities.HibernateManager;
-import vo.Cliente;
+import dao.MyBatisManager;
+import vo.CustomCliente;
 
 public class ClienteResource {
 
@@ -21,7 +21,7 @@ public class ClienteResource {
 
 	public ClienteResource(String dni) {
 		this.dni = Integer.parseInt(dni);
-		Cliente cliente = HibernateManager.getInstance().getClienteByDNI(this.dni);
+		CustomCliente cliente = MyBatisManager.getInstance().getClienteByDNI(this.dni, false);
 		if (cliente == null) {
 			throw new NotFoundException("Get: Client with " + dni + " not found");
 		}
@@ -29,28 +29,28 @@ public class ClienteResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Cliente getClient() {
-		return HibernateManager.getInstance().getClienteByDNI(dni);
+	public CustomCliente getClient() {
+		return MyBatisManager.getInstance().getClienteByDNI(dni, true);
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response putClient(@Context UriInfo uriInfo, Cliente client) {
+	public Response putClient(@Context UriInfo uriInfo, CustomCliente client) {
 		Response res;
 		if (dni != client.getDni()) {
 			res = Response.status(409).entity("Put: Client with " + client.getDni() + " does not match with current client").build();
 		} else {
 			res = Response.noContent().build();
-			HibernateManager.getInstance().editCliente(client);
+			MyBatisManager.getInstance().editCliente(client);
 		}
 		return res;
 	}
 
 	@DELETE
 	public void deleteClient() {
-		Cliente cliente = HibernateManager.getInstance().getClienteByDNI(dni);
+		CustomCliente cliente = MyBatisManager.getInstance().getClienteByDNI(dni, false);
 		if (cliente != null) {
-			HibernateManager.getInstance().deleteCliente(cliente);
+			MyBatisManager.getInstance().deleteCliente(cliente);
 		}
 	}
 }

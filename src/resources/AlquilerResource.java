@@ -10,9 +10,8 @@ import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.api.NotFoundException;
 
-import utilities.Database;
-import utilities.HibernateManager;
-import vo.Alquiler;
+import dao.MyBatisManager;
+import vo.CustomAlquiler;
 
 public class AlquilerResource {
 
@@ -20,32 +19,31 @@ public class AlquilerResource {
 
 	public AlquilerResource(String id) {
 		this.id = Integer.parseInt(id);
-		Alquiler alquiler = HibernateManager.getInstance().getAlquilerByID(this.id);
-		if (alquiler != null) {
+		CustomAlquiler alquiler = MyBatisManager.getInstance().getAlquilerByID(this.id);
+		if (alquiler == null) {
 			throw new NotFoundException("Get: Alquiler with " + id + " not found");
 		}
 	}
 
 	@PUT
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response putAlquiler(@Context UriInfo uriInfo, Alquiler alquiler) {
+	public Response putAlquiler(@Context UriInfo uriInfo, CustomAlquiler alquiler) {
 		Response res;
-		Database.getInstance().createConnection();
-
+		alquiler.toString();
 		if (id != alquiler.getIdAlquiler()) {
 			res = Response.status(409).entity("Put: Alquiler with " + alquiler.getIdAlquiler() + " does not match with current client").build();
 		} else {
 			res = Response.noContent().build();
-			HibernateManager.getInstance().editAlquiler(alquiler);
+			MyBatisManager.getInstance().editAlquiler(alquiler);
 		}
 		return res;
 	}
 
 	@DELETE
 	public void deleteAlquiler() {
-		Alquiler alquiler = HibernateManager.getInstance().getAlquilerByID(id);
+		CustomAlquiler alquiler = MyBatisManager.getInstance().getAlquilerByID(id);
 		if (alquiler != null) {
-			HibernateManager.getInstance().deleteAlquiler(alquiler);
+			MyBatisManager.getInstance().deleteAlquiler(alquiler);
 		}
 	}
 }

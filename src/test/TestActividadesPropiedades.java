@@ -7,22 +7,21 @@ import vo.CustomActividad;
 import vo.CustomPropiedad;
 
 public class TestActividadesPropiedades {
-	
+
 	public static void main(String[] args) {
-		
-		MyBatisManager myBatisManager = new MyBatisManager();
-		
-		List<CustomActividad> actividades = myBatisManager.getAllActividades();
+
+		System.out.println("MOSTRAMOS TODAS LAS ACTIVIDADES");
+		List<CustomActividad> actividades = MyBatisManager.getInstance().getAllActividades();
 		for (CustomActividad a : actividades) {
-			System.out.println(a.getNombre());
+			System.out.println(a.toString());
 		}
-		
-		List<CustomPropiedad> propiedades = myBatisManager.getAllPropiedades();
-		System.out.println(propiedades.size());
+
+		System.out.println("\nMOSTRAMOS TODAS LAS PROPIEDADES JUNTO A SUS ACTIVIDADES");
+		List<CustomPropiedad> propiedades = MyBatisManager.getInstance().getAllPropiedades();
 		for (CustomPropiedad p : propiedades) {
-			System.out.println(p.getNombre());
+			System.out.println(p.toString());
 			for (CustomActividad ca : p.getActividades()) {
-				System.out.println("\t - " + ca.getNombre());
+				System.out.println("\t - " + ca.toString());
 			}
 		}
 	}

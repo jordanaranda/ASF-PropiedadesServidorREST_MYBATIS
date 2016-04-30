@@ -1,24 +1,21 @@
 package vo;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Cliente {
 
-	private int				dni;
-	private String			nombre;
-	private String			apellido;
-	private String			email;
-	private String			direccion;
-	private int				cp;
-	private int				telefono;
+	private int		dni;
+	private String	nombre;
+	private String	apellido;
+	private String	email;
+	private String	direccion;
+	private int		cp;
+	private int		telefono;
 
 	public Cliente() {
 
 	}
 
 	public Cliente(String nombre, String apellido, String email, String direccion, int cp, int telefono) {
-		
+
 	}
 
 	public Cliente(int dni, String nombre, String apellido, String email, String direccion, int cp, int telefono) {
@@ -85,5 +82,17 @@ public class Cliente {
 
 	public void setTelefono(int telefono) {
 		this.telefono = telefono;
+	}
+
+	public CustomCliente toCustomCliente() {
+		CustomCliente cc = new CustomCliente();
+		cc.setDni(dni);
+		cc.setNombre(nombre);
+		cc.setApellido(apellido);
+		cc.setEmail(email);
+		cc.setDireccion(direccion);
+		cc.setCodigoPostal(cp);
+		cc.setTelefono(telefono);
+		return cc;
 	}
 }

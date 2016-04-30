@@ -1,30 +1,23 @@
 package vo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Propiedad {
 
-	private int idPropiedad;
-	private String nombre;
-	private String descripcion;
-	private String direccion;
-	private float latitud;
-	private float longitude;
-	private double area;
-	private double precio;
-	private int idProvincia;
+	private int		idPropiedad;
+	private String	nombre;
+	private String	descripcion;
+	private String	direccion;
+	private float	latitud;
+	private float	longitude;
+	private double	area;
+	private double	precio;
+	private int		idProvincia;
 
 	public Propiedad() {
 
 	}
 
-	public Propiedad(int idPropiedad, String nombre, String descripcion, String direccion, float latitud,
-			float longitude, double area, double precio, int idProvincia) {
-		super();
+	public Propiedad(int idPropiedad, String nombre, String descripcion, String direccion, float latitud, float longitude, double area, double precio,
+			int idProvincia) {
 		this.idPropiedad = idPropiedad;
 		this.nombre = nombre;
 		this.descripcion = descripcion;
@@ -107,7 +100,7 @@ public class Propiedad {
 	public void setIdProvincia(int idProvincia) {
 		this.idProvincia = idProvincia;
 	}
-	
+
 	public CustomPropiedad toCustomPropiedad() {
 		CustomPropiedad cp = new CustomPropiedad();
 		cp.setNombre(nombre);

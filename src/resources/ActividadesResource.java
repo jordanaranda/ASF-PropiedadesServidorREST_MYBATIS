@@ -9,28 +9,27 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import dao.ActividadDAO;
-import dao.PropiedadDAO;
-import vo.Actividad;
-import vo.Propiedad;
+import dao.MyBatisManager;
+import vo.CustomActividad;
+import vo.CustomPropiedad;
 
 @Path("/actividades")
 public class ActividadesResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Actividad> getActividades() {
-		List<Actividad> actividades = new ArrayList<Actividad>();
-		actividades = new ActividadDAO().getAllActividades();
+	public List<CustomActividad> getActividades() {
+		List<CustomActividad> actividades = new ArrayList<CustomActividad>();
+		actividades = MyBatisManager.getInstance().getAllActividades();
 		return actividades;
 	}
 
 	@GET
 	@Path("{idPropiedad}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Actividad> getActividadesPropiedad(@PathParam("idPropiedad") String idPropiedad) {
-		List<Actividad> actividades = new ArrayList<Actividad>();
-		Propiedad propiedad = new PropiedadDAO().getPropiedadById(Integer.parseInt(idPropiedad));
+	public List<CustomActividad> getActividadesPropiedad(@PathParam("idPropiedad") String idPropiedad) {
+		List<CustomActividad> actividades = new ArrayList<CustomActividad>();
+		CustomPropiedad propiedad = MyBatisManager.getInstance().getPropiedadById(Integer.parseInt(idPropiedad));
 		if (propiedad != null) {
 			actividades.addAll(propiedad.getActividades());
 		}

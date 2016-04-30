@@ -2,44 +2,36 @@ package vo;
 
 import java.util.Date;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class Alquiler {
 
-	private int idAlquiler;
-	private int idPropiedad;
-	private int dniCliente;
-	private int idActividad;
-	private Date fechaInicio;
-	private Date fechaFin;
-	private double precio;
+	private int		idAlquiler;
+	private int		idPropiedad;
+	private int		dniCliente;
+	private int		idActividad;
+	private Date	fecha_inicio;
+	private Date	fecha_fin;
+	private double	precio;
 
 	public Alquiler() {
 
 	}
 
 	public Alquiler(int idPropiedad, int dniCliente, int idActividad, Date fechaInicio, Date fechaFin, double precio) {
-		super();
 		this.idPropiedad = idPropiedad;
 		this.dniCliente = dniCliente;
 		this.idActividad = idActividad;
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
+		this.fecha_inicio = fechaInicio;
+		this.fecha_fin = fechaFin;
 		this.precio = precio;
 	}
 
-
-
-	public Alquiler(int idAlquiler, int idPropiedad, int dniCliente, int idActividad, Date fechaInicio, Date fechaFin,
-			double precio) {
-		super();
+	public Alquiler(int idAlquiler, int idPropiedad, int dniCliente, int idActividad, Date fechaInicio, Date fechaFin, double precio) {
 		this.idAlquiler = idAlquiler;
 		this.idPropiedad = idPropiedad;
 		this.dniCliente = dniCliente;
 		this.idActividad = idActividad;
-		this.fechaInicio = fechaInicio;
-		this.fechaFin = fechaFin;
+		this.fecha_inicio = fechaInicio;
+		this.fecha_fin = fechaFin;
 		this.precio = precio;
 	}
 
@@ -75,20 +67,20 @@ public class Alquiler {
 		this.idActividad = idActividad;
 	}
 
-	public Date getFechaInicio() {
-		return fechaInicio;
+	public Date getFecha_inicio() {
+		return fecha_inicio;
 	}
 
-	public void setFechaInicio(Date fechaInicio) {
-		this.fechaInicio = fechaInicio;
+	public void setFecha_inicio(Date fecha_inicio) {
+		this.fecha_inicio = fecha_inicio;
 	}
 
-	public Date getFechaFin() {
-		return fechaFin;
+	public Date getFecha_fin() {
+		return fecha_fin;
 	}
 
-	public void setFechaFin(Date fechaFin) {
-		this.fechaFin = fechaFin;
+	public void setFecha_fin(Date fecha_fin) {
+		this.fecha_fin = fecha_fin;
 	}
 
 	public double getPrecio() {
@@ -97,5 +89,14 @@ public class Alquiler {
 
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+
+	public CustomAlquiler toCustomAlquiler() {
+		CustomAlquiler ca = new CustomAlquiler();
+		ca.setIdAlquiler(idAlquiler);
+		ca.setFecha_inicio(fecha_inicio);
+		ca.setFecha_fin(fecha_fin);
+		ca.setPrecio(precio);
+		return ca;
 	}
 }

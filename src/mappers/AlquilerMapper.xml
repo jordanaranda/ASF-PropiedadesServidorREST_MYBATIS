@@ -10,8 +10,12 @@
 		SELECT * FROM alquiler WHERE idAlquiler=#{idAlquiler}
 	</select>
 	
+	<select	id="getAlquilerByClienteDNI" parameterType="int" resultType="Alquiler">
+		SELECT * FROM alquiler WHERE dniCliente=#{dniCliente}
+	</select>
+	
 	<insert id="addAlquiler" parameterType="Alquiler">
-		INSERT INTO alquiler VALUES (#{idPropiedad}, #{dniCliente}, #{idActividad}, #{fecha_inicio}, #{fecha_fin}, #{precio})
+		INSERT INTO alquiler VALUES (#{idAlquiler}, #{idPropiedad}, #{dniCliente}, #{idActividad}, #{fecha_inicio}, #{fecha_fin}, #{precio})
 	</insert>
 	
 	<update id="editAlquiler" parameterType="Alquiler">

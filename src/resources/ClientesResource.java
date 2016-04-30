@@ -15,8 +15,8 @@ import javax.ws.rs.core.Request;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import utilities.HibernateManager;
-import vo.Cliente;
+import dao.MyBatisManager;
+import vo.CustomCliente;
 
 @Path("/clientes")
 public class ClientesResource {
@@ -29,22 +29,22 @@ public class ClientesResource {
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Cliente> getClients() {
-		return HibernateManager.getInstance().getAllClientes();
+	public List<CustomCliente> getClients() {
+		return MyBatisManager.getInstance().getAllClientes();
 	}
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response newClient(Cliente client) {
+	public Response newClient(CustomCliente client) {
 		Response res = null;
 
-		Cliente cliente = HibernateManager.getInstance().getClienteByDNI(client.getDni());
+		CustomCliente cliente = MyBatisManager.getInstance().getClienteByDNI(client.getDni(), false);
 		if (cliente != null) {
 			res = Response.status(409).entity("Post: Client with " + client.getDni() + " already exists").build();
 		} else {
 			URI uri = uriInfo.getAbsolutePathBuilder().path(Integer.toString(client.getDni())).build();
 			res = Response.created(uri).entity(client).build();
-			HibernateManager.getInstance().addCliente(client);
+			MyBatisManager.getInstance().addCliente(client);
 		}
 		return res;
 	}

@@ -1,49 +1,40 @@
 package test;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import dao.ActividadDAO;
-import dao.AlquilerDAO;
-import dao.ClienteDAO;
-import dao.PropiedadDAO;
-import vo.Actividad;
-import vo.Alquiler;
-import vo.Cliente;
-import vo.Propiedad;
+import dao.MyBatisManager;
+import vo.CustomActividad;
+import vo.CustomAlquiler;
+import vo.CustomCliente;
+import vo.CustomPropiedad;
 
 public class Test {
 
 	public static void main(String[] args) throws Exception {
 
-		ActividadDAO actividadDAO = new ActividadDAO();
-		AlquilerDAO alquilerDAO = new AlquilerDAO();
-		ClienteDAO clienteDAO = new ClienteDAO();
-		PropiedadDAO propiedadDAO = new PropiedadDAO();
-		
 		// CLIENTES
 
 		// INSERTAR CLIENTES Y EN CASO DE QUE EXISTAN LOS BORRAMOS
 		System.out.println("INSERTAMOS DOS CLIENTES DE PRUEBA PERO SI EXISTEN LOS BORRAMOS");
-		Cliente cl1 = new Cliente(78952922, "Endika", "Salgueiro", "email@email.com", "Calle falsa 1234", 48012, 123456789);
-		Cliente cl2 = new Cliente(12457845, "Jordan", "Aranda", "email@email.com", "Calle falsa 1234", 48012, 123456789);
+		CustomCliente cl1 = new CustomCliente(78952922, "Endika", "Salgueiro", "email@email.com", "Calle falsa 1234", 48012, 123456789);
+		CustomCliente cl2 = new CustomCliente(12457845, "Jordan", "Aranda", "email@email.com", "Calle falsa 1234", 48012, 123456789);
 
-		if (clienteDAO.getClienteByDNI(cl1.getDni()) != null) {
-			clienteDAO.deleteCliente(cl1);
+		if (MyBatisManager.getInstance().getClienteByDNI(cl1.getDni(), false) != null) {
+			MyBatisManager.getInstance().deleteCliente(cl1);
 		}
 
-		if (clienteDAO.getClienteByDNI(cl2.getDni()) != null) {
-			clienteDAO.deleteCliente(cl2);
+		if (MyBatisManager.getInstance().getClienteByDNI(cl2.getDni(), false) != null) {
+			MyBatisManager.getInstance().deleteCliente(cl2);
 		}
 
-		clienteDAO.addCliente(cl1);
-		clienteDAO.addCliente(cl2);
+		MyBatisManager.getInstance().addCliente(cl1);
+		MyBatisManager.getInstance().addCliente(cl2);
 
 		// OBTENEMOS TODOS LOS CLIENTES DE LA BASE DE DATOS Y LOS MOSTRAMOS
 		System.out.println("\nVISUALIZAMOS TODOS LOS CLIENTES DE LA BASE DE DATOS");
-		List<Cliente> clientes = clienteDAO.getAllClientes();
-		for (Cliente c : clientes) {
+		List<CustomCliente> clientes = MyBatisManager.getInstance().getAllClientes();
+		for (CustomCliente c : clientes) {
 			System.out.println(c.toString());
 		}
 
@@ -51,60 +42,68 @@ public class Test {
 		System.out.println("\nEDITAMOS EL CLIENTE 'ENDIKA' y 'JORDAN'");
 		cl1.setNombre("Endika Editado");
 		cl2.setNombre("Jordan Editado");
-		clienteDAO.editCliente(cl1);
-		clienteDAO.editCliente(cl2);
+		MyBatisManager.getInstance().editCliente(cl1);
+		MyBatisManager.getInstance().editCliente(cl2);
 
 		// OBTENEMOS EL CLIENTE EDITADO Y LO MOSTRAMOS
 		System.out.println("\nMOSTRAMOS LOS DATOS DEL CLIENTE 'ENDIKA' TRAS LA EDICION");
-		cl1 = clienteDAO.getClienteByDNI(cl1.getDni());
-		System.out.println(cl1.toString());
+		CustomCliente customCliente1 = MyBatisManager.getInstance().getClienteByDNI(cl1.getDni(), false);
+		System.out.println(customCliente1.toString());
 
 		System.out.println("\nMOSTRAMOS LOS DATOS DEL CLIENTE 'JORDAN' TRAS LA EDICION");
-		cl2 = clienteDAO.getClienteByDNI(cl2.getDni());
-		System.out.println(cl2.toString());
+		CustomCliente customCliente2 = MyBatisManager.getInstance().getClienteByDNI(cl2.getDni(), false);
+		System.out.println(customCliente2.toString());
 
 		// ACTIVIDADES
 
 		// OBTENEMOS TODAS LAS ACTIVIDADES DE LA BASE DE DATOS Y LAS MOSTRAMOS
 		System.out.println("\nVISUALIZAMOS TODAS LAS ACTIVIDADES DE LA BASE DE DATOS");
-		List<Actividad> actividades = actividadDAO.getAllActividades();
-		for (Actividad a : actividades) {
+		List<CustomActividad> actividades = MyBatisManager.getInstance().getAllActividades();
+		for (CustomActividad a : actividades) {
 			System.out.println(a.toString());
 		}
-		/*
+
 		// PROPIEDADES
 
 		// OBTENEMOS LA PROPIEDAD CON ID 6 Y SUS ACTIVIDADES
 		System.out.println("\nVISUALIZAMOS LA PROPIEDAD CON ID 1");
-		Propiedad p = propiedadDAO.getPropiedadById(1);
+		CustomPropiedad p = MyBatisManager.getInstance().getPropiedadById(1);
 		System.out.println(p.toString());
 
 		// OBTENEMOS TODAS LAS ACTIVIDADES DE LA PROPIEDAD CON ID 1
 		System.out.println("\nVISUALIZAMOS TODAS LAS ACTIVIDADES DE LA PROPIEDAD CON ID 1");
-		List<Actividad> actividadesPropiedad = new ArrayList<Actividad>();
-		actividadesPropiedad.addAll(p.getActividades());
-		for (Actividad a : actividadesPropiedad) {
+		for (CustomActividad a : p.getActividades()) {
 			System.out.println(a.toString());
 		}
 
 		// ALQUILERES
 		System.out.println("\nINSERTAMOS DOS ALQUILERES DE PRUEBA PERO SI EXISTEN LOS BORRAMOS");
-		Alquiler alq1 = new Alquiler(cl1, actividadesPropiedad.get(0), p, new Date(), new Date(), 100);
-		Alquiler alq2 = new Alquiler(cl2, actividadesPropiedad.get(1), p, new Date(), new Date(), 200);
+		CustomAlquiler alq1 = new CustomAlquiler(cl1, p.getActividades().get(0), p, new Date(), new Date(), 100);
+		CustomAlquiler alq2 = new CustomAlquiler(cl2, p.getActividades().get(1), p, new Date(), new Date(), 200);
 
-		cl1.getAlquileres().add(alq1);
-		clienteDAO.editCliente(cl1);
+		MyBatisManager.getInstance().addAlquiler(alq1);
+		MyBatisManager.getInstance().addAlquiler(alq2);
 
-		cl2.getAlquileres().add(alq2);
-		clienteDAO.editCliente(cl2);
+		cl1 = MyBatisManager.getInstance().getClienteByDNI(cl1.getDni(), true);
+		alq1 = cl1.getAlquileres().get(0);
+		alq1.setPrecio(200);
+		MyBatisManager.getInstance().editAlquiler(alq1);
 
-		// HibernateManager.getInstance().addAlquiler(alq1);
-		// HibernateManager.getInstance().addAlquiler(alq2);
+		cl2 = MyBatisManager.getInstance().getClienteByDNI(cl2.getDni(), true);
+		alq2 = cl2.getAlquileres().get(0);
+		alq2.setPrecio(100);
+		MyBatisManager.getInstance().editAlquiler(alq2);
 
-		cl1 = clienteDAO.getClienteByDNI(cl1.getDni());
-		cl2 = clienteDAO.getClienteByDNI(cl2.getDni());
+		cl1 = MyBatisManager.getInstance().getClienteByDNI(cl1.getDni(), true);
 		System.out.println("Alquileres de cl1: " + cl1.getAlquileres().size());
+		for (CustomAlquiler alquiler : cl1.getAlquileres()) {
+			System.out.println(alquiler.toString());
+		}
+
+		cl2 = MyBatisManager.getInstance().getClienteByDNI(cl2.getDni(), true);
 		System.out.println("Alquileres de cl2: " + cl2.getAlquileres().size());
-		*/
+		for (CustomAlquiler alquiler : cl2.getAlquileres()) {
+			System.out.println(alquiler.toString());
+		}
 	}
 }

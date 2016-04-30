@@ -2,23 +2,25 @@ package vo;
 
 import java.util.Date;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class CustomAlquiler {
 
-	private int idAlquiler;
-	private CustomCliente cliente;
-	private CustomActividad actividad;
-	private CustomPropiedad propiedad;
-	private Date fecha_inicio;
-	private Date fecha_fin;
-	private double precio;
-	
+	private int				idAlquiler;
+	private CustomCliente	cliente;
+	private CustomActividad	actividad;
+	private CustomPropiedad	propiedad;
+	private Date			fecha_inicio;
+	private Date			fecha_fin;
+	private double			precio;
+
 	public CustomAlquiler() {
-		
+
 	}
 
-	public CustomAlquiler(CustomCliente cliente, CustomActividad actividad, CustomPropiedad propiedad,
-			Date fecha_inicio, Date fecha_fin, double precio) {
-		super();
+	public CustomAlquiler(CustomCliente cliente, CustomActividad actividad, CustomPropiedad propiedad, Date fecha_inicio, Date fecha_fin,
+			double precio) {
 		this.cliente = cliente;
 		this.actividad = actividad;
 		this.propiedad = propiedad;
@@ -27,9 +29,8 @@ public class CustomAlquiler {
 		this.precio = precio;
 	}
 
-	public CustomAlquiler(int idAlquiler, CustomCliente cliente, CustomActividad actividad, CustomPropiedad propiedad,
-			Date fecha_inicio, Date fecha_fin, double precio) {
-		super();
+	public CustomAlquiler(int idAlquiler, CustomCliente cliente, CustomActividad actividad, CustomPropiedad propiedad, Date fecha_inicio,
+			Date fecha_fin, double precio) {
 		this.idAlquiler = idAlquiler;
 		this.cliente = cliente;
 		this.actividad = actividad;
@@ -93,5 +94,23 @@ public class CustomAlquiler {
 
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+
+	public Alquiler toAlquiler() {
+		Alquiler a = new Alquiler();
+		a.setIdAlquiler(idAlquiler);
+		a.setDniCliente(cliente.getDni());
+		a.setIdActividad(actividad.getIdActividad());
+		a.setIdPropiedad(propiedad.getIdPropiedad());
+		a.setFecha_inicio(fecha_inicio);
+		a.setFecha_fin(fecha_fin);
+		a.setPrecio(precio);
+		return a;
+	}
+
+	@Override
+	public String toString() {
+		return "CustomAlquiler [idAlquiler=" + idAlquiler + ", cliente=" + cliente + ", actividad=" + actividad + ", propiedad=" + propiedad
+				+ ", fecha_inicio=" + fecha_inicio + ", fecha_fin=" + fecha_fin + ", precio=" + precio + "]";
 	}
 }
