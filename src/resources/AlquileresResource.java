@@ -32,7 +32,11 @@ public class AlquileresResource {
 	@Path("/cliente/{dniCliente}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<CustomAlquiler> getAlquileresCliente(@PathParam("dniCliente") String dniCliente) {
-		return MyBatisManager.getInstance().getClienteByDNI(Integer.parseInt(dniCliente), true).getAlquileres();
+		if (MyBatisManager.getInstance().getClienteByDNI(Integer.parseInt(dniCliente), false) != null) {
+			return MyBatisManager.getInstance().getClienteByDNI(Integer.parseInt(dniCliente), true).getAlquileres();
+		} else {
+			return null;
+		}
 	}
 
 	@POST
